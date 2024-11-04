@@ -5,6 +5,7 @@ import (
 	"math"
 	"time"
   "fmt"
+  "strconv"
 
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/inpututil"
@@ -30,6 +31,7 @@ func (g *Game) Layout(outsideWidth, outsideHeight int) (int, int) {
 
 var (
 	prevUpdateTime    = time.Now()
+  timeDelta    = 0.0
 
 worldMap = [][]int{
   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
@@ -71,24 +73,24 @@ worldMap = [][]int{
 
 
 func (g *Game) Update() error {
-	timeDelta := float64(time.Since(prevUpdateTime))/1e9
+	timeDelta = float64(time.Since(prevUpdateTime))/1e9
 	prevUpdateTime = time.Now()
   
-  for x:=0; x < screenWidth; x++{
-    cameraX := 2.0 * float64(x) / float64(screenWidth) - 1 //x-coordinate in camera space
+  for x:=0; x < screenWidth; x++{ // loop through each strip of screenWidth
+    cameraX := 2.0 * float64(x) / float64(screenWidth) - 1 // in range [-1, 1] left to right
     rayDirX := dirX + planeX * cameraX
     rayDirY := dirY + planeY * cameraX
 
 
-      //which box of the map we're in
+      //current box
     mapX := int(posX)
     mapY := int(posY)
 
-      //length of ray from current position to next x or y-side
+      //length to next X or Y box from my pos
     sideDistX := 0.0
     sideDistY := 0.0
 
-     //length of ray from one x or y-side to next x or y-side
+     //gen length to next X, Y
     deltaDistX := 0.0
     deltaDistY := 0.0
 
@@ -194,7 +196,6 @@ func (g *Game) Update() error {
 		case "ArrowDown":
       x_index := int(posX - dirX * moveSpeed)
       y_index := int(posY)
-      // if (x_index >= 0 || x_index <= 24) && (y_index >=0 || y_index <= 24){
       if worldMap[x_index][y_index] == 0 {posX -= dirX * moveSpeed}
       if worldMap[int(posX)][int(posY - dirY * moveSpeed)] == 0 {posY -= dirY * moveSpeed}
       // }
@@ -223,9 +224,35 @@ func (g *Game) Update() error {
 	return nil
 }
 
+func (g *Game) DrawMiniMap(screen *ebiten.Image) {
+  var alpha uint8 = 175
+  whiteClr := color.RGBA{255, 255, 255, alpha} 
+  blackClr := color.RGBA{0, 0, 0, alpha} 
+  greenClr := color.RGBA{0, 255, 0, alpha} 
+  miniMapSize := 200
+  blockSize := miniMapSize / mapWidth
+
+  vector.DrawFilledRect(screen, 0, 0, float32(miniMapSize), float32(miniMapSize), blackClr, false)
+
+  for row := range mapWidth {
+    for col := range mapHeight {
+      val := worldMap[row][col]
+      if val > 0 {
+        x0 := blockSize*row
+        y0 := blockSize*col
+          vector.DrawFilledRect(screen, float32(x0), float32(y0), float32(blockSize), float32(blockSize), whiteClr, false)
+        }
+      }
+    }
+
+  playerRadius := 5
+  vector.DrawFilledCircle(screen, float32(posX*float64(blockSize)), float32(posY*float64(blockSize)), float32(playerRadius), greenClr, false)
+}
+
 
 func (g *Game) Draw(screen *ebiten.Image) {
-  screen.Fill(color.RGBA{137, 196, 244, 255})
+  skyBlueClr := color.RGBA{137, 196, 244, 255} 
+  screen.Fill(skyBlueClr)
 
 
 	whiteClr := color.RGBA{255, 255, 255, 255}
@@ -242,9 +269,15 @@ func (g *Game) Draw(screen *ebiten.Image) {
       clr = grayClr
     }
     vector.StrokeLine(screen, x0, y0, x1, y1, 1, clr, false)
-    vector.StrokeLine(screen, x0, y1, x1, screenHeight, 1, goldClr, false)
-
+    if y1 < screenHeight{
+      vector.StrokeLine(screen, x0, y1, x1, screenHeight, 1, goldClr, false)
+    }
   }
+  
+  g.DrawMiniMap(screen)
+  // FPS := 1/timeDelta
+
+
 }
 func main() {
 
@@ -254,7 +287,7 @@ func main() {
 
 	ebiten.SetWindowSize(screenWidth, screenHeight)
 	ebiten.SetWindowTitle("The Library of Alexandria")
-	fmt.Print("The Library of Alexandria")
+	fmt.Println("The Library of Alexandria")
 
 	if err := ebiten.RunGame(&Game{}); err != nil {
 		panic(err)
