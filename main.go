@@ -12,8 +12,8 @@ import (
 )
 
 const (
-	screenWidth  = 600
-	screenHeight = 600
+	screenWidth  = 1200
+	screenHeight = 1200
 
   mapWidth = 24
   mapHeight = 24
@@ -71,7 +71,7 @@ worldMap = [][]int{
 
 
 func (g *Game) Update() error {
-	timeDelta := float64(time.Since(prevUpdateTime))/1000000000
+	timeDelta := float64(time.Since(prevUpdateTime))/1e9
 	prevUpdateTime = time.Now()
   
   for x:=0; x < screenWidth; x++{
@@ -186,7 +186,6 @@ func (g *Game) Update() error {
 	for _, key := range g.pressedKeys {
 		switch key.String() {
 		case "Space":
-			// acc *= ballAccelerationSpeedUpMultiplier
 		}
 	}
 
@@ -221,70 +220,29 @@ func (g *Game) Update() error {
 		}
 	}
 
-
-
 	return nil
 }
 
-var simpleShader *ebiten.Shader
-
-func init() {
-	var err error
-
-	simpleShader, err = ebiten.NewShader([]byte(`
-		package main
-
-		func Fragment(position vec4, texCoord vec2, color vec4) vec4 {
-			return color
-		}
-	`))
-	if err != nil {
-		panic(err)
-	}
-}
-
-func (g *Game) drawCircle(screen *ebiten.Image, x, y, radius float32, clr color.RGBA) {
-	var path vector.Path
-
-	path.MoveTo(x, y)
-	path.Arc(x, y, radius, 0, math.Pi*2, vector.Clockwise)
-
-	vertices, indices := path.AppendVerticesAndIndicesForFilling(nil, nil)
-
-	redScaled := float32(clr.R) / 255
-	greenScaled := float32(clr.G) / 255
-	blueScaled := float32(clr.B) / 255
-	alphaScaled := float32(clr.A) / 255
-
-	for i := range vertices {
-		v := &vertices[i]
-
-		v.ColorR = redScaled
-		v.ColorG = greenScaled
-		v.ColorB = blueScaled
-		v.ColorA = alphaScaled
-	}
-
-	screen.DrawTrianglesShader(vertices, indices, simpleShader, &ebiten.DrawTrianglesShaderOptions{
-		FillRule: ebiten.EvenOdd,
-	})
-}
 
 func (g *Game) Draw(screen *ebiten.Image) {
-	purpleClr := color.RGBA{255, 0, 255, 255}
-	purpleLightClr := color.RGBA{100, 0, 100, 255}
+  screen.Fill(color.RGBA{137, 196, 244, 255})
+
+
+	whiteClr := color.RGBA{255, 255, 255, 255}
+	grayClr := color.RGBA{200, 200, 200, 255}
+	goldClr := color.RGBA{212,175,55, 255}
 
   for x:=0; x < screenWidth; x++ {
     x0 := float32(x)
     y0 := float32(wallCoords[x][0])
     x1 := x0+1
     y1 := float32(wallCoords[x][1])
-    // fmt.Print(x0, y0)
-    clr := purpleClr
+    clr := whiteClr
     if wallSide[x] == 1 {
-      clr = purpleLightClr
+      clr = grayClr
     }
     vector.StrokeLine(screen, x0, y0, x1, y1, 1, clr, false)
+    vector.StrokeLine(screen, x0, y1, x1, screenHeight, 1, goldClr, false)
 
   }
 }
