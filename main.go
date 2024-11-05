@@ -5,7 +5,6 @@ import (
 	"math"
 	"time"
   "fmt"
-  "strconv"
 
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/inpututil"
@@ -68,6 +67,7 @@ worldMap = [][]int{
 
   wallCoords = [][]int{}
   wallSide = [screenWidth]int{}
+  perpDists = [screenWidth]float64{}
 
 )
 
@@ -158,6 +158,7 @@ func (g *Game) Update() error {
       }else {
         perpWallDist = (sideDistY - deltaDistY)
       }
+    perpDists[x] = perpWallDist
 
       //Calculate height of line to draw on screen
     lineHeight := int((float64(screenHeight) / perpWallDist))
@@ -229,6 +230,7 @@ func (g *Game) DrawMiniMap(screen *ebiten.Image) {
   whiteClr := color.RGBA{255, 255, 255, alpha} 
   blackClr := color.RGBA{0, 0, 0, alpha} 
   greenClr := color.RGBA{0, 255, 0, alpha} 
+	yellowClr := color.RGBA{255,255,0, 255}
   miniMapSize := 200
   blockSize := miniMapSize / mapWidth
 
@@ -246,7 +248,17 @@ func (g *Game) DrawMiniMap(screen *ebiten.Image) {
     }
 
   playerRadius := 5
-  vector.DrawFilledCircle(screen, float32(posX*float64(blockSize)), float32(posY*float64(blockSize)), float32(playerRadius), greenClr, false)
+  relPlayerX := float32(posX*float64(blockSize))
+  relPlayerY := float32(posY*float64(blockSize))
+  vector.DrawFilledCircle(screen, relPlayerX, relPlayerY, float32(playerRadius), greenClr, false)
+
+  for x:=0; x < screenWidth; x++{ // loop through each strip of screenWidth
+    cameraX := 2.0 * float64(x) / float64(screenWidth) - 1 // in range [-1, 1] left to right
+    rayDirX := float32(dirX + planeX * cameraX)
+    rayDirY := float32(dirY + planeY * cameraX)
+    vector.StrokeLine(screen, relPlayerX, relPlayerY, relPlayerX + 8*float32(perpDists[x])*rayDirX*float32(1),relPlayerY + 8*float32(perpDists[x])*rayDirY*float32(1), 1, yellowClr, false)
+    //TODO: why does factor of 8 work?
+  }
 }
 
 
