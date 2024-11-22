@@ -1,26 +1,40 @@
 package main
 
 import (
+	"fmt"
 	"image/color"
 	"math"
 	"time"
-  "fmt"
 
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/inpututil"
 	"github.com/hajimehoshi/ebiten/v2/vector"
+
+	"github.com/hajimehoshi/ebiten/v2/text"
+	"golang.org/x/image/font/basicfont"
+	"io/ioutil"
+	"log"
+	"strings"
 )
 
 const (
-	screenWidth  = 600
-	screenHeight = 600
+	screenWidth  = 1500
+	screenHeight = 750
 
   mapWidth = 24
   mapHeight = 24
 
+	textViewWidth = screenWidth/2
+	textViewHeight = screenHeight/2
+	textViewX     = screenWidth/2
+	textViewY     = screenHeight/2
+	scrollSpeed   = 3
+
 )
 
 type Game struct {
+	textLines []string
+	scroll    int // Tracks the scrolling position
 	pressedKeys []ebiten.Key
 }
 
@@ -180,8 +194,8 @@ func (g *Game) Update() error {
 
   }
 
-  moveSpeed := (timeDelta) * 5.0; //the constant value is in squares/second
-  rotSpeed := timeDelta * 3.0; //the constant value is in radians/second
+  moveSpeed := (timeDelta) * 2.0; //the constant value is in squares/second
+  rotSpeed := timeDelta * 2.0; //the constant value is in radians/second
 
 
 	g.pressedKeys = inpututil.AppendPressedKeys(g.pressedKeys[:0])
@@ -222,7 +236,12 @@ func (g *Game) Update() error {
 		}
 	}
 
+  handleScrolling(g)
+
 	return nil
+}
+
+func (g *Game) DrawBook(screen *ebiten.Image) {
 }
 
 func (g *Game) DrawMiniMap(screen *ebiten.Image) {
@@ -231,7 +250,7 @@ func (g *Game) DrawMiniMap(screen *ebiten.Image) {
   blackClr := color.RGBA{0, 0, 0, alpha} 
   greenClr := color.RGBA{0, 255, 0, alpha} 
 	yellowClr := color.RGBA{255,255,0, 255}
-  miniMapSize := 200
+  miniMapSize := 100
   blockSize := miniMapSize / mapWidth
 
   vector.DrawFilledRect(screen, 0, 0, float32(miniMapSize), float32(miniMapSize), blackClr, false)
@@ -247,7 +266,7 @@ func (g *Game) DrawMiniMap(screen *ebiten.Image) {
       }
     }
 
-  playerRadius := 5
+  playerRadius := 2
   relPlayerX := float32(posX*float64(blockSize))
   relPlayerY := float32(posY*float64(blockSize))
   vector.DrawFilledCircle(screen, relPlayerX, relPlayerY, float32(playerRadius), greenClr, false)
@@ -256,8 +275,8 @@ func (g *Game) DrawMiniMap(screen *ebiten.Image) {
     cameraX := 2.0 * float64(x) / float64(screenWidth) - 1 // in range [-1, 1] left to right
     rayDirX := float32(dirX + planeX * cameraX)
     rayDirY := float32(dirY + planeY * cameraX)
-    vector.StrokeLine(screen, relPlayerX, relPlayerY, relPlayerX + 8*float32(perpDists[x])*rayDirX*float32(1),relPlayerY + 8*float32(perpDists[x])*rayDirY*float32(1), 1, yellowClr, false)
-    //TODO: why does factor of 8 work?
+    MAP_SCALE_FACTOR := float32(4.0)
+    vector.StrokeLine(screen, relPlayerX, relPlayerY, relPlayerX + MAP_SCALE_FACTOR*float32(perpDists[x])*rayDirX*float32(1),relPlayerY + MAP_SCALE_FACTOR*float32(perpDists[x])*rayDirY*float32(1), 1, yellowClr, false)
   }
 }
 
@@ -287,10 +306,89 @@ func (g *Game) Draw(screen *ebiten.Image) {
   }
   
   g.DrawMiniMap(screen)
+  renderText(g, screen, textViewX, textViewY, textViewWidth, textViewHeight)
   // FPS := 1/timeDelta
-
-
 }
+
+// NewGame initializes the game with the text file
+func NewGame(filePath string) *Game {
+	lines := loadTextFile(filePath)
+	return &Game{
+		textLines: lines,
+		scroll:    0,
+	}
+}
+
+// handleScrolling manages scrolling based on input
+func handleScrolling(g *Game) {
+	// Handle keyboard input
+	if ebiten.IsKeyPressed(ebiten.KeyArrowUp) {
+		g.scroll -= scrollSpeed
+		if g.scroll < 0 {
+			g.scroll = 0
+		}
+	}
+	if ebiten.IsKeyPressed(ebiten.KeyArrowDown) {
+		g.scroll += scrollSpeed
+		if g.scroll > len(g.textLines)-1 {
+			g.scroll = len(g.textLines) - 1
+		}
+	}
+
+	// Handle mouse wheel input
+	_, wheelY := ebiten.Wheel()
+	if wheelY != 0 {
+		g.scroll -= int(wheelY) * scrollSpeed
+		if g.scroll < 0 {
+			g.scroll = 0
+		}
+		if g.scroll > len(g.textLines)-1 {
+			g.scroll = len(g.textLines) - 1
+		}
+	}
+}
+
+func renderText(g *Game, screen *ebiten.Image, x, y, width, height int) {
+	fontFace := basicfont.Face7x13
+	lineHeight := fontFace.Metrics().Height.Ceil()
+	maxLines := height / lineHeight
+	startLine := g.scroll
+	endLine := startLine + maxLines
+	if endLine > len(g.textLines) {
+		endLine = len(g.textLines)
+	}
+
+	// Draw the text background rectangle
+	rectangle := ebiten.NewImage(width, height)
+	rectangle.Fill(color.RGBA{50, 50, 50, 255}) // Text viewer background color
+  // Create a GeoM for positioning the rectangle
+  op := &ebiten.DrawImageOptions{}
+  op.GeoM.Translate(float64(x), float64(y))
+
+  // Draw the rectangle
+  screen.DrawImage(rectangle, op)
+
+	// Draw lines of text within the region
+	for i, line := range g.textLines[startLine:endLine] {
+		textX := x + 10 // Left padding inside the region
+		textY := y + (i * lineHeight) + lineHeight
+		if textY > y+height { // Avoid drawing text outside the region
+			break
+		}
+		text.Draw(screen, line, fontFace, textX, textY, color.White)
+	}
+}
+
+// loadTextFile reads the content of a file and splits it into lines
+func loadTextFile(filePath string) []string {
+	content, err := ioutil.ReadFile(filePath)
+	if err != nil {
+		log.Fatalf("Failed to read file: %v", err)
+	}
+	return strings.Split(string(content), "\n")
+}
+
+
 func main() {
 
   for i:=0; i < screenWidth; i++ {
@@ -301,7 +399,9 @@ func main() {
 	ebiten.SetWindowTitle("The Library of Alexandria")
 	fmt.Println("The Library of Alexandria")
 
-	if err := ebiten.RunGame(&Game{}); err != nil {
+  game := NewGame("iliad.txt")
+	if err := ebiten.RunGame(game); err != nil {
 		panic(err)
 	}
+
 }
