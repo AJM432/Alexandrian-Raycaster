@@ -495,7 +495,7 @@ func main() {
 	ebiten.SetWindowTitle("The Library of Alexandria")
 	fmt.Println("The Library of Alexandria")
 
-  game := NewGame("books/iliad.txt")
+  game := NewGame(book_names[0])
 	if err := ebiten.RunGame(game); err != nil {
 		panic(err)
 	}
