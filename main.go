@@ -11,29 +11,32 @@ import (
 	"github.com/hajimehoshi/ebiten/v2/vector"
 
 	"github.com/hajimehoshi/ebiten/v2/text"
-	"golang.org/x/image/font/basicfont"
 	"io/ioutil"
 	"log"
 	"strings"
   "os"
   "path/filepath"
+
+	"golang.org/x/image/font"
+	"golang.org/x/image/font/opentype"
 )
 
 const (
 	screenWidth  = 1500
 	screenHeight = 750
+  FONT_SIZE = 11
 
   mapWidth = 24
   mapHeight = 24
 
-	textViewWidth = int(screenWidth/2.5)
+	textViewWidth = int(500)
 	textViewHeight = screenHeight
-	textViewX     = int(screenWidth - screenWidth/2.5)
+	textViewX     = int(screenWidth - textViewWidth)
 	textViewY     = 0
 	scrollSpeed   = 3
 
 )
-
+var textFont font.Face
 type Game struct {
 	textLines []string
 	scroll    int // Tracks the scrolling position
@@ -91,7 +94,8 @@ worldMap = [][]int{
   currentViewedBlockEnd = -1
 
   book_names = []string{}
-  currentBookIndex = 0
+  curr_book_scroll = []int{}
+  currentBookIndex = -1
 
 )
 
@@ -339,19 +343,22 @@ func (g *Game) Draw(screen *ebiten.Image) {
   }
   
   g.DrawMiniMap(screen)
-  renderText(g, screen, textViewX, textViewY, textViewWidth, textViewHeight)
   // FPS := 1/timeDelta
-	fontFace := basicfont.Face7x13
 
   bookIndex := getBookIndex(currentViewedBlockX, currentViewedBlockY, mapWidth, mapHeight)
   if len(book_names) > bookIndex {
-    text.Draw(screen, book_names[bookIndex], fontFace, screenWidth/2, 15, color.Black)
+    text.Draw(screen, book_names[bookIndex], textFont, screenWidth/2, 15, color.Black)
     if currentBookIndex != bookIndex {
+      if currentBookIndex >= 0{
+        curr_book_scroll[currentBookIndex] = g.scroll
+      }
+
       lines := loadTextFile(book_names[bookIndex])
-      g.textLines = lines
-      g.scroll = 0
       currentBookIndex = bookIndex
+      g.textLines = lines
+      g.scroll = curr_book_scroll[currentBookIndex]
     }
+    renderText(g, screen, textViewX, textViewY, textViewWidth, textViewHeight)
   }
 }
 
@@ -395,7 +402,7 @@ func handleScrolling(g *Game) {
 }
 
 func renderText(g *Game, screen *ebiten.Image, x, y, width, height int) {
-	fontFace := basicfont.Face7x13
+	fontFace := textFont
 	lineHeight := fontFace.Metrics().Height.Ceil()
 	maxLines := height / lineHeight
 	startLine := g.scroll
@@ -406,7 +413,8 @@ func renderText(g *Game, screen *ebiten.Image, x, y, width, height int) {
 
 	// Draw the text background rectangle
 	rectangle := ebiten.NewImage(width, height)
-	rectangle.Fill(color.RGBA{50, 50, 50, 255}) // Text viewer background color
+  papyrusClr := color.RGBA{201, 152, 104, 255}
+	rectangle.Fill(papyrusClr) // Text viewer background color
   // Create a GeoM for positioning the rectangle
   op := &ebiten.DrawImageOptions{}
   op.GeoM.Translate(float64(x), float64(y))
@@ -421,8 +429,29 @@ func renderText(g *Game, screen *ebiten.Image, x, y, width, height int) {
 		if textY > y+height { // Avoid drawing text outside the region
 			break
 		}
-		text.Draw(screen, line, fontFace, textX, textY, color.White)
+		text.Draw(screen, line, textFont, textX, textY, color.Black)
 	}
+}
+
+// LoadFont loads a TTF font from a file
+func LoadFont(filePath string, size float64) font.Face {
+	fontBytes, err := os.ReadFile(filePath)
+	if err != nil {
+		log.Fatalf("Failed to read font file: %v", err)
+	}
+	tt, err := opentype.Parse(fontBytes)
+	if err != nil {
+		log.Fatalf("Failed to parse font: %v", err)
+	}
+	fontFace, err := opentype.NewFace(tt, &opentype.FaceOptions{
+		Size:    size,
+		DPI:     72,
+		Hinting: font.HintingFull,
+	})
+	if err != nil {
+		log.Fatalf("Failed to create font face: %v", err)
+	}
+	return fontFace
 }
 
 // loadTextFile reads the content of a file and splits it into lines
@@ -446,6 +475,7 @@ func getBookNames(dir string) []string {
           continue
        }
        files = append(files, filepath.Join(dir, v.Name()))
+       curr_book_scroll = append(curr_book_scroll, 0)
     }
 
     return files
@@ -453,6 +483,7 @@ func getBookNames(dir string) []string {
 
 func main() {
 
+  textFont = LoadFont("CinzelDecorative-Regular.ttf", FONT_SIZE)
   book_names = getBookNames("books")
   fmt.Println(book_names)
 
