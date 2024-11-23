@@ -11,7 +11,6 @@ import (
 	"github.com/hajimehoshi/ebiten/v2/vector"
 
 	"github.com/hajimehoshi/ebiten/v2/text"
-  // "golang.org/x/image/font/basicfont"
 	"io/ioutil"
 	"log"
 	"strings"
@@ -137,16 +136,14 @@ func (g *Game) Update() error {
     }
     perpWallDist := 0.0
 
-      //what direction to step in x or y-direction (either +1 or -1)
     stepX := 0.0
     stepY:= 0.0
 
-    hit := 0 //was there a wall hit?
-    side := 0 //was a NS or a EW wall hit?
+    hit := 0
+    side := 0
 
 
 
-      //calculate step and initial sideDist
       if rayDirX < 0{
         stepX = -1
         sideDistX = (posX - float64(mapX)) * deltaDistX
@@ -164,9 +161,7 @@ func (g *Game) Update() error {
         sideDistY = (float64(mapY) + 1.0 - posY) * deltaDistY;
       }
 
-      //perform DDA
       for hit == 0 {
-        //jump to next map square, either in x-direction, or in y-direction
         if sideDistX < sideDistY {
           sideDistX += deltaDistX
           mapX += int(stepX)
@@ -177,7 +172,6 @@ func (g *Game) Update() error {
           mapY += int(stepY)
           side = 1
         }
-        //Check if ray has hit a wall
         if worldMap[mapX][mapY] > 0{ 
           if (rayDirX == dirX) && (rayDirY == dirY) {
             currentViewedBlockX = mapX
@@ -195,7 +189,6 @@ func (g *Game) Update() error {
           hit = 1
         }
       } 
-      //Calculate distance projected on camera direction (Euclidean distance would give fisheye effect!)
       if side == 0 { 
         perpWallDist = (sideDistX - deltaDistX)
       }else {
@@ -203,10 +196,8 @@ func (g *Game) Update() error {
       }
     perpDists[x] = perpWallDist
 
-      //Calculate height of line to draw on screen
     lineHeight := int((float64(screenHeight) / perpWallDist))
 
-      //calculate lowest and highest pixel to fill in current stripe
     drawStart := -lineHeight/2 + screenHeight/2
 
       if drawStart < 0 {
@@ -223,8 +214,8 @@ func (g *Game) Update() error {
 
   }
 
-  moveSpeed := (timeDelta) * 2.0; //the constant value is in squares/second
-  rotSpeed := timeDelta * 2.0; //the constant value is in radians/second
+  moveSpeed := (timeDelta) * 2.0;
+  rotSpeed := timeDelta * 2.0;
 
 
 	g.pressedKeys = inpututil.AppendPressedKeys(g.pressedKeys[:0])
@@ -242,12 +233,10 @@ func (g *Game) Update() error {
       y_index := int(posY)
       if worldMap[x_index][y_index] == 0 {posX -= dirX * moveSpeed}
       if worldMap[int(posX)][int(posY - dirY * moveSpeed)] == 0 {posY -= dirY * moveSpeed}
-      // }
 		case "ArrowUp":
       if worldMap[int(posX + dirX * moveSpeed)][int(posY)] == 0 { posX += dirX * moveSpeed}
       if worldMap[int(posX)][int(posY + dirY * moveSpeed)] == 0 {posY += dirY * moveSpeed}
 		case "ArrowLeft":
-      //both camera direction and camera plane must be rotated
       oldDirX := dirX
       dirX = dirX * math.Cos(-rotSpeed) - dirY * math.Sin(-rotSpeed)
       dirY = oldDirX * math.Sin(-rotSpeed) + dirY * math.Cos(-rotSpeed)
@@ -255,7 +244,6 @@ func (g *Game) Update() error {
       planeX = planeX * math.Cos(-rotSpeed) - planeY * math.Sin(-rotSpeed)
       planeY = oldPlaneX * math.Sin(-rotSpeed) + planeY * math.Cos(-rotSpeed)
 		case "ArrowRight":
-      //both camera direction and camera plane must be rotated
       oldDirX := dirX;
       dirX = dirX * math.Cos(rotSpeed) - dirY * math.Sin(rotSpeed);
       dirY = oldDirX * math.Sin(rotSpeed) + dirY * math.Cos(rotSpeed);
@@ -371,17 +359,6 @@ func getBookIndex(mapX int, mapY int, mapWidth int, mapHeight int) int {
     return len(book_names) + 1
   }
   return apparentIndex % (len(book_names)-1)
-  // for y := 0; y < mapY; y++ {
-  //   for x := 0; x < mapX; x++ {
-  //     row := y
-  //     col := x
-  //     val := worldMap[row][col]
-  //     if (val == 0) || (row > 0 && row < mapWidth && col > 0 && col < mapHeight) && (worldMap[row-1][col] == 0 || worldMap[row+1][col] == 0 || worldMap[row][col-1] == 0 || worldMap[row][col+1] == 0) {
-  //       apparentIndex -= 1
-  //     }
-  //   }
-  // }
-  // return apparentIndex
 }
 
 // NewGame initializes the game with the text file
@@ -393,9 +370,7 @@ func NewGame(filePath string) *Game {
 	}
 }
 
-// handleScrolling manages scrolling based on input
 func handleScrolling(g *Game) {
-	// Handle mouse wheel input
 	_, wheelY := ebiten.Wheel()
 	if wheelY != 0 {
 		g.scroll -= int(wheelY) * scrollSpeed
@@ -418,29 +393,24 @@ func renderText(g *Game, screen *ebiten.Image, x, y, width, height int) {
 		endLine = len(g.textLines)
 	}
 
-	// Draw the text background rectangle
 	rectangle := ebiten.NewImage(width, height)
   papyrusClr := color.RGBA{201, 152, 104, 255}
 	rectangle.Fill(papyrusClr) // Text viewer background color
-  // Create a GeoM for positioning the rectangle
   op := &ebiten.DrawImageOptions{}
   op.GeoM.Translate(float64(x), float64(y))
 
-  // Draw the rectangle
   screen.DrawImage(rectangle, op)
 
-	// Draw lines of text within the region
 	for i, line := range g.textLines[startLine:endLine] {
-		textX := x + 10 // Left padding inside the region
+		textX := x + 10
 		textY := y + (i * lineHeight) + lineHeight
-		if textY > y+height { // Avoid drawing text outside the region
+		if textY > y+height {
 			break
 		}
 		text.Draw(screen, line, textFont, textX, textY, color.Black)
 	}
 }
 
-// LoadFont loads a TTF font from a file
 func LoadFont(filePath string, size float64) font.Face {
 	fontBytes, err := os.ReadFile(filePath)
 	if err != nil {
@@ -461,7 +431,6 @@ func LoadFont(filePath string, size float64) font.Face {
 	return fontFace
 }
 
-// loadTextFile reads the content of a file and splits it into lines
 func loadTextFile(filePath string) []string {
 	content, err := ioutil.ReadFile(filePath)
 	if err != nil {
