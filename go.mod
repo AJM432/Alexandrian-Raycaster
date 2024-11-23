@@ -1,4 +1,4 @@
-module github.com/AJM432/library_of_alexandria
+module github.com/AJM432/Alexandrian-Raycaster
 
 go 1.23.2
 

@@ -11,6 +11,7 @@ import (
 	"github.com/hajimehoshi/ebiten/v2/vector"
 
 	"github.com/hajimehoshi/ebiten/v2/text"
+  "golang.org/x/image/font/basicfont"
 	"io/ioutil"
 	"log"
 	"strings"
@@ -36,7 +37,6 @@ const (
 	scrollSpeed   = 3
 
 )
-var textFont font.Face
 type Game struct {
 	textLines []string
 	scroll    int // Tracks the scrolling position
@@ -96,6 +96,7 @@ worldMap = [][]int{
   book_names = []string{}
   curr_book_scroll = []int{}
   currentBookIndex = -1
+  textFont = basicfont.Face7x13
 
 )
 
@@ -483,7 +484,7 @@ func getBookNames(dir string) []string {
 
 func main() {
 
-  textFont = LoadFont("CinzelDecorative-Regular.ttf", FONT_SIZE)
+  // textFont = LoadFont("CinzelDecorative-Regular.ttf", FONT_SIZE)
   book_names = getBookNames("books")
   fmt.Println(book_names)
 
