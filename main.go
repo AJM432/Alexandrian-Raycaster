@@ -15,6 +15,8 @@ import (
 	"io/ioutil"
 	"log"
 	"strings"
+  "os"
+  "path/filepath"
 )
 
 const (
@@ -24,10 +26,10 @@ const (
   mapWidth = 24
   mapHeight = 24
 
-	textViewWidth = screenWidth/2
-	textViewHeight = screenHeight/2
-	textViewX     = screenWidth/2
-	textViewY     = screenHeight/2
+	textViewWidth = int(screenWidth/2.5)
+	textViewHeight = screenHeight
+	textViewX     = int(screenWidth - screenWidth/2.5)
+	textViewY     = 0
 	scrollSpeed   = 3
 
 )
@@ -47,7 +49,7 @@ var (
   timeDelta    = 0.0
 
 worldMap = [][]int{
-  {4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,7,7,7,7,7,7,7,7},
+  {0,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,7,7,7,7,7,7,7,0},
   {4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,0,0,0,0,0,0,7},
   {4,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7},
   {4,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7},
@@ -70,10 +72,10 @@ worldMap = [][]int{
   {4,0,0,5,0,0,0,0,0,4,6,0,6,2,0,0,0,0,0,2,2,0,2,2},
   {4,0,6,0,6,0,0,0,0,4,6,0,6,2,0,0,5,0,0,2,0,0,0,2},
   {4,0,0,0,0,0,0,0,0,4,6,0,6,2,0,0,0,0,0,2,0,0,0,2},
-  {4,4,4,4,4,4,4,4,4,4,1,1,1,2,2,2,2,2,2,3,3,3,3,3}}
+  {0,4,4,4,4,4,4,4,4,4,1,1,1,2,2,2,2,2,2,3,3,3,3,0}}
 
-  posX = 12.0
-  posY = 12.0
+  posX = 5.0
+  posY = 5.0
   dirX = 1.0
   dirY = 0.0
   planeX = 0.0
@@ -83,10 +85,19 @@ worldMap = [][]int{
   wallSide = [screenWidth]int{}
   perpDists = [screenWidth]float64{}
 
+  currentViewedBlockX = -1
+  currentViewedBlockY = -1
+  currentViewedBlockStart = -1
+  currentViewedBlockEnd = -1
+
+  book_names = []string{}
+  currentBookIndex = 0
+
 )
 
 
 func (g *Game) Update() error {
+  currentViewedBlockStart = -1
 	timeDelta = float64(time.Since(prevUpdateTime))/1e9
 	prevUpdateTime = time.Now()
   
@@ -163,6 +174,19 @@ func (g *Game) Update() error {
         }
         //Check if ray has hit a wall
         if worldMap[mapX][mapY] > 0{ 
+          if (rayDirX == dirX) && (rayDirY == dirY) {
+            currentViewedBlockX = mapX
+            currentViewedBlockY = mapY
+          }
+          if (mapX == currentViewedBlockX) && (mapY == currentViewedBlockY){
+            if (currentViewedBlockStart == -1){
+              currentViewedBlockStart = x
+            }else{
+              currentViewedBlockEnd = x
+            }
+
+        }
+            
           hit = 1
         }
       } 
@@ -241,17 +265,16 @@ func (g *Game) Update() error {
 	return nil
 }
 
-func (g *Game) DrawBook(screen *ebiten.Image) {
-}
-
 func (g *Game) DrawMiniMap(screen *ebiten.Image) {
   var alpha uint8 = 175
   whiteClr := color.RGBA{255, 255, 255, alpha} 
   blackClr := color.RGBA{0, 0, 0, alpha} 
   greenClr := color.RGBA{0, 255, 0, alpha} 
+  blueClr := color.RGBA{0, 0, 255, alpha} 
 	yellowClr := color.RGBA{255,255,0, 255}
-  miniMapSize := 100
+  miniMapSize := 200
   blockSize := miniMapSize / mapWidth
+  blockDrawClr := whiteClr
 
   vector.DrawFilledRect(screen, 0, 0, float32(miniMapSize), float32(miniMapSize), blackClr, false)
 
@@ -259,14 +282,19 @@ func (g *Game) DrawMiniMap(screen *ebiten.Image) {
     for col := range mapHeight {
       val := worldMap[row][col]
       if val > 0 {
+        if (row == currentViewedBlockX) && (col == currentViewedBlockY){
+          blockDrawClr = blueClr
+        }else {
+          blockDrawClr = whiteClr
+        }
         x0 := blockSize*row
         y0 := blockSize*col
-          vector.DrawFilledRect(screen, float32(x0), float32(y0), float32(blockSize), float32(blockSize), whiteClr, false)
+          vector.DrawFilledRect(screen, float32(x0), float32(y0), float32(blockSize), float32(blockSize), blockDrawClr, false)
         }
       }
     }
 
-  playerRadius := 2
+  playerRadius := 5
   relPlayerX := float32(posX*float64(blockSize))
   relPlayerY := float32(posY*float64(blockSize))
   vector.DrawFilledCircle(screen, relPlayerX, relPlayerY, float32(playerRadius), greenClr, false)
@@ -275,7 +303,7 @@ func (g *Game) DrawMiniMap(screen *ebiten.Image) {
     cameraX := 2.0 * float64(x) / float64(screenWidth) - 1 // in range [-1, 1] left to right
     rayDirX := float32(dirX + planeX * cameraX)
     rayDirY := float32(dirY + planeY * cameraX)
-    MAP_SCALE_FACTOR := float32(4.0)
+    MAP_SCALE_FACTOR := float32(8.0)
     vector.StrokeLine(screen, relPlayerX, relPlayerY, relPlayerX + MAP_SCALE_FACTOR*float32(perpDists[x])*rayDirX*float32(1),relPlayerY + MAP_SCALE_FACTOR*float32(perpDists[x])*rayDirY*float32(1), 1, yellowClr, false)
   }
 }
@@ -289,6 +317,7 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	whiteClr := color.RGBA{255, 255, 255, 255}
 	grayClr := color.RGBA{200, 200, 200, 255}
 	goldClr := color.RGBA{212,175,55, 255}
+	blueClr := color.RGBA{0,0,255, 255}
 
   for x:=0; x < screenWidth; x++ {
     x0 := float32(x)
@@ -296,8 +325,12 @@ func (g *Game) Draw(screen *ebiten.Image) {
     x1 := x0+1
     y1 := float32(wallCoords[x][1])
     clr := whiteClr
-    if wallSide[x] == 1 {
+    if (x >= currentViewedBlockStart) && (x <= currentViewedBlockEnd){
+      clr = blueClr
+    }else if wallSide[x] == 1 {
       clr = grayClr
+    }else{
+      clr = whiteClr
     }
     vector.StrokeLine(screen, x0, y0, x1, y1, 1, clr, false)
     if y1 < screenHeight{
@@ -308,6 +341,33 @@ func (g *Game) Draw(screen *ebiten.Image) {
   g.DrawMiniMap(screen)
   renderText(g, screen, textViewX, textViewY, textViewWidth, textViewHeight)
   // FPS := 1/timeDelta
+	fontFace := basicfont.Face7x13
+
+  bookIndex := getBookIndex(currentViewedBlockX, currentViewedBlockY, mapWidth, mapHeight)
+  if len(book_names) > bookIndex {
+    text.Draw(screen, book_names[bookIndex], fontFace, screenWidth/2, 15, color.Black)
+    if currentBookIndex != bookIndex {
+      lines := loadTextFile(book_names[bookIndex])
+      g.textLines = lines
+      g.scroll = 0
+      currentBookIndex = bookIndex
+    }
+  }
+}
+
+func getBookIndex(mapX int, mapY int, mapWidth int, mapHeight int) int {
+  apparentIndex := mapY*mapWidth + mapX
+  for y := 0; y <= mapY; y++ {
+    for x := 0; x <= mapX; x++ {
+      row := y
+      col := x
+      val := worldMap[row][col]
+      if (val == 0) || (row > 0 && row < mapWidth && col > 0 && col < mapHeight) && (worldMap[row-1][col] == 0 || worldMap[row+1][col] == 0 || worldMap[row][col-1] == 0 || worldMap[row][col+1] == 0) {
+        apparentIndex -= 1
+      }
+    }
+  }
+  return apparentIndex
 }
 
 // NewGame initializes the game with the text file
@@ -321,20 +381,6 @@ func NewGame(filePath string) *Game {
 
 // handleScrolling manages scrolling based on input
 func handleScrolling(g *Game) {
-	// Handle keyboard input
-	if ebiten.IsKeyPressed(ebiten.KeyArrowUp) {
-		g.scroll -= scrollSpeed
-		if g.scroll < 0 {
-			g.scroll = 0
-		}
-	}
-	if ebiten.IsKeyPressed(ebiten.KeyArrowDown) {
-		g.scroll += scrollSpeed
-		if g.scroll > len(g.textLines)-1 {
-			g.scroll = len(g.textLines) - 1
-		}
-	}
-
 	// Handle mouse wheel input
 	_, wheelY := ebiten.Wheel()
 	if wheelY != 0 {
@@ -388,8 +434,27 @@ func loadTextFile(filePath string) []string {
 	return strings.Split(string(content), "\n")
 }
 
+func getBookNames(dir string) []string {
+    entries, err := os.ReadDir(dir)
+    if err != nil {
+       log.Fatal(err)
+    }
+
+    var files []string
+    for _, v := range entries {
+       if v.IsDir() {
+          continue
+       }
+       files = append(files, filepath.Join(dir, v.Name()))
+    }
+
+    return files
+  }
 
 func main() {
+
+  book_names = getBookNames("books")
+  fmt.Println(book_names)
 
   for i:=0; i < screenWidth; i++ {
     wallCoords = append(wallCoords, []int{})
@@ -399,7 +464,7 @@ func main() {
 	ebiten.SetWindowTitle("The Library of Alexandria")
 	fmt.Println("The Library of Alexandria")
 
-  game := NewGame("iliad.txt")
+  game := NewGame("books/iliad.txt")
 	if err := ebiten.RunGame(game); err != nil {
 		panic(err)
 	}
