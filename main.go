@@ -11,7 +11,7 @@ import (
 	"github.com/hajimehoshi/ebiten/v2/vector"
 
 	"github.com/hajimehoshi/ebiten/v2/text"
-  "golang.org/x/image/font/basicfont"
+  // "golang.org/x/image/font/basicfont"
 	"io/ioutil"
 	"log"
 	"strings"
@@ -96,9 +96,9 @@ worldMap = [][]int{
   book_names = []string{}
   curr_book_scroll = []int{}
   currentBookIndex = -1
-  textFont = basicfont.Face7x13
 
 )
+var textFont font.Face = LoadFont("fonts/CinzelDecorative-Regular.ttf", 11)
 
 
 func (g *Game) Update() error {
@@ -275,7 +275,7 @@ func (g *Game) DrawMiniMap(screen *ebiten.Image) {
   whiteClr := color.RGBA{255, 255, 255, alpha} 
   blackClr := color.RGBA{0, 0, 0, alpha} 
   greenClr := color.RGBA{0, 255, 0, alpha} 
-  blueClr := color.RGBA{0, 0, 255, alpha} 
+  focusClr := color.RGBA{196, 164, 132, alpha} 
 	yellowClr := color.RGBA{255,255,0, 255}
   miniMapSize := 200
   blockSize := miniMapSize / mapWidth
@@ -288,7 +288,7 @@ func (g *Game) DrawMiniMap(screen *ebiten.Image) {
       val := worldMap[row][col]
       if val > 0 {
         if (row == currentViewedBlockX) && (col == currentViewedBlockY){
-          blockDrawClr = blueClr
+          blockDrawClr = focusClr
         }else {
           blockDrawClr = whiteClr
         }
@@ -322,7 +322,7 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	whiteClr := color.RGBA{255, 255, 255, 255}
 	grayClr := color.RGBA{200, 200, 200, 255}
 	goldClr := color.RGBA{212,175,55, 255}
-	blueClr := color.RGBA{0,0,255, 255}
+  focusClr := color.RGBA{196, 164, 132, 255} 
 
   for x:=0; x < screenWidth; x++ {
     x0 := float32(x)
@@ -331,7 +331,7 @@ func (g *Game) Draw(screen *ebiten.Image) {
     y1 := float32(wallCoords[x][1])
     clr := whiteClr
     if (x >= currentViewedBlockStart) && (x <= currentViewedBlockEnd){
-      clr = blueClr
+      clr = focusClr
     }else if wallSide[x] == 1 {
       clr = grayClr
     }else{
@@ -364,18 +364,24 @@ func (g *Game) Draw(screen *ebiten.Image) {
 }
 
 func getBookIndex(mapX int, mapY int, mapWidth int, mapHeight int) int {
-  apparentIndex := mapY*mapWidth + mapX
-  for y := 0; y <= mapY; y++ {
-    for x := 0; x <= mapX; x++ {
-      row := y
-      col := x
-      val := worldMap[row][col]
-      if (val == 0) || (row > 0 && row < mapWidth && col > 0 && col < mapHeight) && (worldMap[row-1][col] == 0 || worldMap[row+1][col] == 0 || worldMap[row][col-1] == 0 || worldMap[row][col+1] == 0) {
-        apparentIndex -= 1
-      }
-    }
+  apparentIndex := (mapY*mapWidth + mapX)
+
+  dist_to_book := (perpDists[int(len(perpDists)/2)])
+  if dist_to_book > 2 {
+    return len(book_names) + 1
   }
-  return apparentIndex
+  return apparentIndex % (len(book_names)-1)
+  // for y := 0; y < mapY; y++ {
+  //   for x := 0; x < mapX; x++ {
+  //     row := y
+  //     col := x
+  //     val := worldMap[row][col]
+  //     if (val == 0) || (row > 0 && row < mapWidth && col > 0 && col < mapHeight) && (worldMap[row-1][col] == 0 || worldMap[row+1][col] == 0 || worldMap[row][col-1] == 0 || worldMap[row][col+1] == 0) {
+  //       apparentIndex -= 1
+  //     }
+  //   }
+  // }
+  // return apparentIndex
 }
 
 // NewGame initializes the game with the text file
@@ -484,9 +490,7 @@ func getBookNames(dir string) []string {
 
 func main() {
 
-  // textFont = LoadFont("CinzelDecorative-Regular.ttf", FONT_SIZE)
   book_names = getBookNames("books")
-  fmt.Println(book_names)
 
   for i:=0; i < screenWidth; i++ {
     wallCoords = append(wallCoords, []int{})

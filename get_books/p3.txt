@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<!--
+
+DON'T USE THIS PAGE FOR SCRAPING.
+
+Seriously. You'll only get your IP blocked.
+
+Download https://www.gutenberg.org/feeds/catalog.rdf.bz2 instead,
+which contains *all* Project Gutenberg metadata in one RDF/XML file.
+
+--><html lang="en">
+
+
+
+
+<head>
+<style>
+.icon   { background: transparent url(/pics/sprite.png) 0 0 no-repeat; }
+.page_content a.subtle_link:link {color:currentColor; text-decoration: none;}
+.page_content a.subtle_link:hover {color:#003366}
+</style>
+<link rel="stylesheet" type="text/css" href="/gutenberg/pg-desktop-one.css">
+<link rel="stylesheet" type="text/css" href="/gutenberg/new_nav.css">
+<link rel="stylesheet" type="text/css" href="/gutenberg/style.css">
+<script>//
+var canonical_url   = "http://www.gutenberg.org/ebooks/bookshelf/24?sort_order=downloads&start_index=51";
+var lang            = "en";
+var msg_load_more   = "Load More Results…";
+var page_mode       = "screen";
+var dialog_title    = "";
+var dialog_message  = "";
+//</script>
+<script src="/js/pg-two.js"></script>
+<link rel="shortcut icon" href="/gutenberg/favicon.ico">
+<link rel="canonical" href="http://www.gutenberg.org/ebooks/bookshelf/24?sort_order=downloads&amp;start_index=51">
+<link rel="search" type="application/opensearchdescription+xml" title="Search Project Gutenberg" href="https://www.gutenberg.org/catalog/osd-books.xml">
+<link rel="alternate nofollow" type="application/atom+xml;profile=opds-catalog" title="OPDS feed" href="/ebooks/bookshelf/24.opds?sort_order=downloads&amp;start_index=51">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="default-style" content="text/css">
+<meta name="title" content="Books in Classical Antiquity (sorted by popularity)">
+<meta name="description" content="Project Gutenberg offers 74,615 free eBooks for Kindle, iPad, Nook, Android, and iPhone.">
+<meta name="keywords" content="ebook, ebooks, free ebooks, free books, book, books, audio books">
+<meta name="classification" content="public">
+<meta property="og:title" content="Books in Classical Antiquity (sorted by popularity)">
+<meta property="og:description" content="Project Gutenberg offers 74,615 free eBooks for Kindle, iPad, Nook, Android, and iPhone.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://www.gutenberg.org/pics/logo-144x144.png">
+<meta property="og:url" content="http://www.gutenberg.org/ebooks/bookshelf/24?sort_order=downloads&amp;start_index=51">
+<meta property="og:site_name" content="Project Gutenberg">
+<meta property="fb:app_id" content="115319388529183">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@gutenberg_new">
+<meta name="twitter:image" content="http://www.gutenberg.org/pics/logo-144x144.png">
+<meta name="twitter:image:alt" content="book cover image">
+<title>Books in Classical Antiquity (sorted by popularity) - Project Gutenberg</title>
+<link rel="self" title="This Page" href="/ebooks/search/?start_index=51">
+<link rel="first" title="First Page" href="/ebooks/search/">
+<link rel="previous" title="Previous Page" href="/ebooks/search/?start_index=26">
+<link rel="next" title="Next Page" href="/ebooks/search/?start_index=76">
+<meta name="totalResults" content="76">
+<meta name="startIndex" content="51">
+<meta name="itemsPerPage" content="25">
+</head>
+<body>
+<div id="mw-head-dummy" class="noprint"></div>
+<div id="content" class="page_content">
+<div class="header">
+<h1><span class="icon icon_bookshelf"></span>Books in Classical Antiquity (sorted by popularity)</h1>
+</div>
+<div class="body">
+<div>
+<ul class="results">
+<li class="statusline">
+<div class="padded">
+<span>Displaying results 51–75</span>
+<span class="links">
+|
+<a title="Go to the first page of results." accesskey="a" href="/ebooks/bookshelf/24?sort_order=downloads">First</a>
+|
+<a title="Go to the previous page of results." accesskey="-" href="/ebooks/bookshelf/24?sort_order=downloads&amp;start_index=26">Previous</a>
+|
+<a title="Go to the next page of results." accesskey="+" href="/ebooks/bookshelf/24?sort_order=downloads&amp;start_index=76">Next</a>
+</span>
+</div>
+</li>
+<li class="booklink">
+<a class="link" href="/ebooks/10661" accesskey="1">
+<span class="cell leftcell with-cover">
+<img class="cover-thumb" src="/cache/epub/10661/pg10661.cover.small.jpg" alt="">
+</span>
+<span class="cell content">
+<span class="title">A Selection from the Discourses of Epictetus with the Encheiridion</span>
+<span class="subtitle">Epictetus</span>
+<span class="extra">409 downloads</span>
+</span>
+<span class="hstrut"></span>
+</a>
+</li>
+<li class="booklink">
+<a class="link" href="/ebooks/8604" accesskey="2">
+<span class="cell leftcell with-cover">
+<img class="cover-thumb" src="/cache/epub/8604/pg8604.cover.small.jpg" alt="">
+</span>
+<span class="cell content">
+<span class="title">The House of Atreus; Being the Agamemnon, the Libation bearers, and the Furies</span>
+<span class="subtitle">Aeschylus</span>
+<span class="extra">381 downloads</span>
+</span>
+<span class="hstrut"></span>
+</a>
+</li>
+<li class="booklink">
+<a class="link" href="/ebooks/20732" accesskey="3">
+<span class="cell leftcell with-cover">
+<img class="cover-thumb" src="/cache/epub/20732/pg20732.cover.small.jpg" alt="">
+</span>
+<span class="cell content">
+<span class="title">The Carmina of Caius Valerius Catullus</span>
+<span class="subtitle">Gaius Valerius Catullus</span>
+<span class="extra">353 downloads</span>
+</span>
+<span class="hstrut"></span>
+</a>
+</li>
+<li class="booklink">
+<a class="link" href="/ebooks/16880" accesskey="4">
+<span class="cell leftcell with-cover">
+<img class="cover-thumb" src="/cache/epub/16880/pg16880.cover.small.jpg" alt="">
+</span>
+<span class="cell content">
+<span class="title">Über die Dichtkunst beim Aristoteles (German)</span>
+<span class="subtitle">Aristotle</span>
+<span class="extra">344 downloads</span>
+</span>
+<span class="hstrut"></span>
+</a>
+</li>
+<li class="booklink">
+<a class="link" href="/ebooks/8714" accesskey="5">
+<span class="cell leftcell with-cover">
+<img class="cover-thumb" src="/cache/epub/8714/pg8714.cover.small.jpg" alt="">
+</span>
+<span class="cell content">
+<span class="title">Four Plays of Aeschylus</span>
+<span class="subtitle">Aeschylus</span>
+<span class="extra">342 downloads</span>
+</span>
+<span class="hstrut"></span>
+</a>
+</li>
+<li class="booklink">
+<a class="link" href="/ebooks/7959" accesskey="6">
+<span class="cell leftcell with-cover">
+<img class="cover-thumb" src="/cache/epub/7959/pg7959.cover.small.jpg" alt="">
+</span>
+<span class="cell content">
+<span class="title">The Reign of Tiberius, Out of the First Six Annals of Tacitus;</span>
+<span class="subtitle">Cornelius Tacitus</span>
+<span class="extra">333 downloads</span>
+</span>
+<span class="hstrut"></span>
+</a>
+</li>
+<li class="booklink">
+<a class="link" href="/ebooks/18867" accesskey="7">
+<span class="cell leftcell with-cover">
+<img class="cover-thumb" src="/cache/epub/18867/pg18867.cover.small.jpg" alt="">
+</span>
+<span class="cell content">
+<span class="title">The Poems and Fragments of Catullus</span>
+<span class="subtitle">Gaius Valerius Catullus</span>
+<span class="extra">315 downloads</span>
+</span>
+<span class="hstrut"></span>
+</a>
+</li>
+<li class="booklink">
+<a class="link" href="/ebooks/16439" accesskey="8">
+<span class="cell leftcell with-cover">
+<img class="cover-thumb" src="/cache/epub/16439/pg16439.cover.small.jpg" alt="">
+</span>
+<span class="cell content">
+<span class="title">Apicii librorum X qui dicuntur De re coquinaria quae extant (Latin)</span>
+<span class="subtitle">Apicius</span>
+<span class="extra">311 downloads</span>
+</span>
+<span class="hstrut"></span>
+</a>
+</li>
+<li class="booklink">
+<a class="link" href="/ebooks/23720" accesskey="9">
+<span class="cell leftcell with-cover">
+<img class="cover-thumb" src="/cache/epub/23720/pg23720.cover.small.jpg" alt="">
+</span>
+<span class="cell content">
+<span class="title">To Lesbia</span>
+<span class="subtitle">Gaius Valerius Catullus</span>
+<span class="extra">288 downloads</span>
+</span>
+<span class="hstrut"></span>
+</a>
+</li>
+<li class="booklink">
+<a class="link" href="/ebooks/8418" accesskey="0">
+<span class="cell leftcell with-cover">
+<img class="cover-thumb" src="/cache/epub/8418/pg8418.cover.small.jpg" alt="">
+</span>
+<span class="cell content">
+<span class="title">Hippolytus; The Bacchae</span>
+<span class="subtitle">Euripides</span>
+<span class="extra">273 downloads</span>
+</span>
+<span class="hstrut"></span>
+</a>
+</li>
+<li class="booklink">
+<a class="link" href="/ebooks/229" accesskey="1">
+<span class="cell leftcell with-cover">
+<img class="cover-thumb" src="/cache/epub/229/pg229.cover.small.jpg" alt="">
+</span>
+<span class="cell content">
+<span class="title">The Bucolics and Eclogues (Latin)</span>
+<span class="subtitle">Virgil</span>
+<span class="extra">269 downloads</span>
+</span>
+<span class="hstrut"></span>
+</a>
+</li>
+<li class="booklink">
+<a class="link" href="/ebooks/9090" accesskey="2">
+<span class="cell leftcell with-cover">
+<img class="cover-thumb" src="/cache/epub/9090/pg9090.cover.small.jpg" alt="">
+</span>
+<span class="cell content">
+<span class="title">Germania and Agricola (Latin)</span>
+<span class="subtitle">Cornelius Tacitus</span>
+<span class="extra">258 downloads</span>
+</span>
+<span class="hstrut"></span>
+</a>
+</li>
+<li class="booklink">
+<a class="link" href="/ebooks/14945" accesskey="3">
+<span class="cell leftcell with-cover">
+<img class="cover-thumb" src="/cache/epub/14945/pg14945.cover.small.jpg" alt="">
+</span>
+<span class="cell content">
+<span class="title">Cato Maior de Senectute with Introduction and Notes (Latin)</span>
+<span class="subtitle">Marcus Tullius Cicero</span>
+<span class="extra">246 downloads</span>
+</span>
+<span class="hstrut"></span>
+</a>
+</li>
+<li class="booklink">
+<a class="link" href="/ebooks/9175" accesskey="4">
+<span class="cell leftcell with-cover">
+<img class="cover-thumb" src="/cache/epub/9175/pg9175.cover.small.jpg" alt="">
+</span>
+<span class="cell content">
+<span class="title">The Art of Poetry: an Epistle to the Pisos (Latin)</span>
+<span class="subtitle">Horace</span>
+<span class="extra">244 downloads</span>
+</span>
+<span class="hstrut"></span>
+</a>
+</li>
+<li class="booklink">
+<a class="link" href="/ebooks/4775" accesskey="5">
+<span class="cell leftcell with-cover">
+<img class="cover-thumb" src="/cache/epub/4775/pg4775.cover.small.jpg" alt="">
+</span>
+<span class="cell content">
+<span class="title">Theocritus, Bion and Moschus, Rendered into English Prose</span>
+<span class="subtitle">Theocritus, of Phlossa near Smyrna Bion, and Moschus</span>
+<span class="extra">241 downloads</span>
+</span>
+<span class="hstrut"></span>
+</a>
+</li>
+<li class="booklink">
+<a class="link" href="/ebooks/18837" accesskey="6">
+<span class="cell leftcell with-cover">
+<img class="cover-thumb" src="/cache/epub/18837/pg18837.cover.small.jpg" alt="">
+</span>
+<span class="cell content">
+<span class="title">Commentarii de Bello Gallico, Libri V-VIII (Latin)</span>
+<span class="subtitle">Julius Caesar</span>
+<span class="extra">239 downloads</span>
+</span>
+<span class="hstrut"></span>
+</a>
+</li>
+<li class="booklink">
+<a class="link" href="/ebooks/14970" accesskey="7">
+<span class="cell leftcell with-cover">
+<img class="cover-thumb" src="/cache/epub/14970/pg14970.cover.small.jpg" alt="">
+</span>
+<span class="cell content">
+<span class="title">Academica (Latin)</span>
+<span class="subtitle">Marcus Tullius Cicero</span>
+<span class="extra">225 downloads</span>
+</span>
+<span class="hstrut"></span>
+</a>
+</li>
+<li class="booklink">
+<a class="link" href="/ebooks/14285" accesskey="8">
+<span class="cell leftcell with-cover">
+<img class="cover-thumb" src="/cache/epub/14285/pg14285.cover.small.jpg" alt="">
+</span>
+<span class="cell content">
+<span class="title">L'Iliade (French)</span>
+<span class="subtitle">Homer</span>
+<span class="extra">225 downloads</span>
+</span>
+<span class="hstrut"></span>
+</a>
+</li>
+<li class="booklink">
+<a class="link" href="/ebooks/15017" accesskey="9">
+<span class="cell leftcell with-cover">
+<img class="cover-thumb" src="/cache/epub/15017/pg15017.cover.small.jpg" alt="">
+</span>
+<span class="cell content">
+<span class="title">A Dialogue Concerning Oratory, or the Causes of Corrupt Eloquence</span>
+<span class="subtitle">Cornelius Tacitus</span>
+<span class="extra">222 downloads</span>
+</span>
+<span class="hstrut"></span>
+</a>
+</li>
+<li class="booklink">
+<a class="link" href="/ebooks/2571" accesskey="0">
+<span class="cell leftcell with-cover">
+<img class="cover-thumb" src="/cache/epub/2571/pg2571.cover.small.jpg" alt="">
+</span>
+<span class="cell content">
+<span class="title">Peace</span>
+<span class="subtitle">Aristophanes</span>
+<span class="extra">218 downloads</span>
+</span>
+<span class="hstrut"></span>
+</a>
+</li>
+<li class="booklink">
+<a class="link" href="/ebooks/8738" accesskey="1">
+<span class="cell leftcell with-cover">
+<img class="cover-thumb" src="/cache/epub/8738/pg8738.cover.small.jpg" alt="">
+</span>
+<span class="cell content">
+<span class="title">Fasti (Latin)</span>
+<span class="subtitle">Ovid</span>
+<span class="extra">212 downloads</span>
+</span>
+<span class="hstrut"></span>
+</a>
+</li>
+<li class="booklink">
+<a class="link" href="/ebooks/11080" accesskey="2">
+<span class="cell leftcell with-cover">
+<img class="cover-thumb" src="/cache/epub/11080/pg11080.cover.small.jpg" alt="">
+</span>
+<span class="cell content">
+<span class="title">The Orations of Marcus Tullius Cicero, Volume 4</span>
+<span class="subtitle">Marcus Tullius Cicero</span>
+<span class="extra">201 downloads</span>
+</span>
+<span class="hstrut"></span>
+</a>
+</li>
+<li class="booklink">
+<a class="link" href="/ebooks/10523" accesskey="3">
+<span class="cell leftcell with-cover">
+<img class="cover-thumb" src="/cache/epub/10523/pg10523.cover.small.jpg" alt="">
+</span>
+<span class="cell content">
+<span class="title">Alcestis</span>
+<span class="subtitle">Euripides</span>
+<span class="extra">198 downloads</span>
+</span>
+<span class="hstrut"></span>
+</a>
+</li>
+<li class="booklink">
+<a class="link" href="/ebooks/9646" accesskey="4">
+<span class="cell leftcell with-cover">
+<img class="cover-thumb" src="/cache/epub/9646/pg9646.cover.small.jpg" alt="">
+</span>
+<span class="cell content">
+<span class="title">Horace: Odes and Epodes (Latin)</span>
+<span class="subtitle">Horace</span>
+<span class="extra">195 downloads</span>
+</span>
+<span class="hstrut"></span>
+</a>
+</li>
+<li class="booklink">
+<a class="link" href="/ebooks/14322" accesskey="5">
+<span class="cell leftcell with-cover">
+<img class="cover-thumb" src="/cache/epub/14322/pg14322.cover.small.jpg" alt="">
+</span>
+<span class="cell content">
+<span class="title">The Electra of Euripides</span>
+<span class="subtitle">Euripides</span>
+<span class="extra">189 downloads</span>
+</span>
+<span class="hstrut"></span>
+</a>
+</li>
+<li class="statusline">
+<div class="padded">
+Displaying results 51–75
+<span class="links">
+|
+<a title="Go to the first page of results." accesskey="a" href="/ebooks/bookshelf/24?sort_order=downloads">First</a>
+|
+<a title="Go to the previous page of results." accesskey="-" href="/ebooks/bookshelf/24?sort_order=downloads&amp;start_index=26">Previous</a>
+|
+<a title="Go to the next page of results." accesskey="+" href="/ebooks/bookshelf/24?sort_order=downloads&amp;start_index=76">Next</a>
+</span>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="footer">
+<div>
+<ul>
+<li>
+<a href="/policy/privacy_policy.html" title="Privacy Policy">Privacy policy</a>
+</li>
+<li>
+<a href="/about/" title="About Project Gutenberg">About Project Gutenberg</a>
+</li>
+<li>
+<a href="/policy/terms_of_use.html" title="Terms of Use">Terms of Use</a>
+</li>
+<li>
+<a href="/about/contact_information.html" title="Contact Information">Contact Information</a>
+</li>
+<li><a href="/help/" title="Get Help">Get Help</a></li>
+</ul>
+<a href="https://www.ibiblio.org/" title="Project Gutenberg is hosted by ibiblio">
+<img src="/gutenberg/ibiblio-logo.png" alt="iBiblio">
+</a>
+</div>
+</div>
+<nav>
+<!--<div id="main_logo"> -->
+<a id="main_logo" href="/" class="no-hover">
+<img src="/gutenberg/pg-logo-129x80.png" alt="Project Gutenberg" draggable="false">
+</a>
+<!--	</div>-->
+<div id="menu">
+<label for="tm" id="toggle-menu">Menu<span class="drop-icon">▾</span></label>
+<input type="checkbox" id="tm">
+<ul class="main-menu cf">
+<li>
+<a href="/about/">About
+<span class="drop-icon">▾</span>
+</a>
+<label title="Toggle Drop-down" class="drop-icon" for="sm0">▾</label>
+<input type="checkbox" id="sm0">
+<ul class="sub-menu">
+<li><a href="/about/">About Project Gutenberg</a></li>
+<li><a href="/policy/collection_development.html">Collection Development</a></li>
+<li><a href="/about/contact_information.html">Contact Us</a></li>
+<li><a href="/about/background/">History &amp; Philosophy</a></li>
+<li><a href="/policy/permission.html">Permissions &amp; License</a></li>
+<li><a href="/policy/privacy_policy.html">Privacy Policy</a></li>
+<li><a href="/policy/terms_of_use.html">Terms of Use</a></li>
+</ul>
+</li>
+<li>
+<a href="/ebooks/">Search and Browse
+<span class="drop-icon">▾</span>
+</a>
+<label title="Toggle Drop-down" class="drop-icon" for="sm8">▾</label>
+<input type="checkbox" id="sm8">
+<ul class="sub-menu">
+<li><a href="/ebooks/">Book Search</a></li>
+<li><a href="/ebooks/bookshelf/">Bookshelves</a></li>
+<li><a href="/browse/scores/top">Frequently Downloaded</a></li>
+<li><a href="/ebooks/offline_catalogs.html">Offline Catalogs</a></li>
+</ul>
+</li>
+<li>
+<a href="/help/">Help
+<span class="drop-icon">▾</span>
+</a>
+<label title="Toggle Drop-down" class="drop-icon" for="sm3">▾</label>
+<input type="checkbox" id="sm3">
+<ul class="sub-menu">
+<li><a href="/help/">All help topics →</a></li>
+<li><a href="/help/copyright.html">Copyright Procedures</a></li>
+<li><a href="/help/errata.html">Errata, Fixes and Bug Reports</a></li>
+<li><a href="/help/file_formats.html">File Formats</a></li>
+<li><a href="/help/faq.html">Frequently Asked Questions</a></li>
+<li><a href="/policy/">Policies →</a></li>
+<li><a href="/help/public_domain_ebook_submission.html">Public Domain eBook Submission</a></li>
+<li><a href="/help/submitting_your_own_work.html">Submitting Your Own Work</a></li>
+<li><a href="/help/mobile.html">Tablets, Phones and eReaders</a></li>
+<li><a href="/attic/">The Attic →</a></li>
+</ul>
+</li>
+<li><a href="/donate/">Donate</a></li>
+</ul>
+</div>
+<div class="donate">
+<div class="searchbox">
+<form method="get" action="/ebooks/search/" accept-charset="utf-8" enctype="multipart/form-data" class="searchbox">
+<input type="text" value="" id="menu-book-search" name="query" class="searchInput" title="Quick search" tabindex="20" size="20" maxlength="80" placeholder="Quick search">
+<input type="submit" name="submit_search" value="Go!" style="vertical-align:middle;">
+</form>
+</div>
+<form class="donatelink" action="https://www.paypal.com/cgi-bin/webscr" method="post" target="new">
+<p><a href="/donate/">Donation</a></p>
+<input type="hidden" name="cmd" value="_s-xclick">
+<input type="hidden" name="hosted_button_id" value="XKAL6BZL3YPSN">
+<input class="donbtn" type="image" src="/pics/en_US.gif" name="submit" alt="Donate via PayPal">
+</form>
+</div>
+</nav>
+</body>
+</html>
