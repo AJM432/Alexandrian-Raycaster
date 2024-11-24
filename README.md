@@ -6,7 +6,7 @@ Simulates the Great Library of Alexandria with raycasting
 [![Go](https://img.shields.io/badge/Go-%2300ADD8.svg?&logo=go&logoColor=white)](#)
 
 ## Demo
-![2024-11-23 19-24-23](https://github.com/user-attachments/assets/4e12d98a-84ce-4603-94ed-d09dfba5ba44)
+![2024-11-23 19-24-23](https://github.com/user-attachments/assets/3a9316a3-6e1e-4c07-b56b-60207a79f42a)
 
 ## Features
 
