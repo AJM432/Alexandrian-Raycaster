@@ -6,9 +6,10 @@ Simulates the Great Library of Alexandria with raycasting
 [![Go](https://img.shields.io/badge/Go-%2300ADD8.svg?&logo=go&logoColor=white)](#)
 
 ## Demo
-Coming soon
+![2024-11-23 19-24-23](https://github.com/user-attachments/assets/4e12d98a-84ce-4603-94ed-d09dfba5ba44)
 
 ## Features
+
 ### Raycasting Methodology 
 The program uses the perpendicular distance to the camera plane to prevent the fish-eye effect caused by using Euclidian distance. Rays are sent out from the player's direction in a 66° field of view. The resolution of the number of rays is the same as the number of horizontal pixels on the screen. The program contains a mini-map displaying the rays emanating from the player.
 <p align="left">
